@@ -5,23 +5,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { BooleanToStringInterceptor } from './interceptors/boolean-to-string.interceptor';
 import { FormatResponseInterceptor } from './interceptors/format-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
-import * as hbs from 'hbs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
-  
-  hbs.registerPartials(join(__dirname, '..', 'views/partials'));
-
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalInterceptors(
     new FormatResponseInterceptor(),
     new BooleanToStringInterceptor()
   );
+
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, transform: true })
+  );
+
 
   const config = new DocumentBuilder()
     .setTitle('Hoken API')
@@ -29,7 +25,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, config));
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
 
   app.enableCors({
     origin: true,
@@ -40,6 +39,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`Aplicación ejecutándose en ${process.env.BACKEND_URL}`);
+  console.log(`Aplicación ejecutándose en ${process.env.BACKEND_URL || 'http://localhost:' + port}`);
 }
+
 bootstrap();
