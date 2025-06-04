@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -17,18 +19,22 @@ import { MailModule } from './mail/mail.module';
       envFilePath: '.env',
     }),
 
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'public'), 
+    }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get<string>('DATABASE_URL'),
         autoLoadEntities: true,
-        synchronize: false, // Desactivado para evitar borrar datos
+        synchronize: false,
         ssl: configService.get('NODE_ENV') === 'production'
           ? { rejectUnauthorized: true }
           : false,
         extra: {
-          options: "--client_encoding=UTF8"
+          options: '--client_encoding=UTF8',
         },
         logging: ['error', 'warn'],
       }),

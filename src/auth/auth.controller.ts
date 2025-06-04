@@ -94,19 +94,30 @@ export class AuthController {
 }
 
 @Get('confirm-email')
-  async confirmEmail(@Query('token') token: string, @Res() res: Response) {
-    try {
-      await this.authService.confirmEmail(token);
-
-      const frontendUrl = this.configService.get('FRONTEND_URL');
-    
-      return res.redirect(`${frontendUrl}/confirm-success`);
-    } catch (err) {
-      const frontendUrl = this.configService.get('FRONTEND_URL');
-     
-      return res.redirect(`${frontendUrl}/confirm-error`);
-    }
+async confirmEmail(@Query('token') token: string, @Res() res: Response) {
+  if (!token) {
+    return res.status(400).send('Token no proporcionado');
   }
+
+  const result = await this.authService.confirmEmail(token);
+
+  if (result === 'alreadyConfirmed') {
+    return res.render('account-already-confirmed', {
+      backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
+    });
+  }
+
+  if (result === 'confirmed') {
+    return res.render('activation-success', {
+      backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
+    });
+  }
+
+  return res.render('activation-error', {
+    backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
+    message: 'No se pudo confirmar el correo.',
+  });
+}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)

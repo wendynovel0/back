@@ -1,49 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Confirmar Cuenta - Hoken</title>
+    <meta charset="UTF-8">
+    <title>Cuenta Ya Confirmada - Hoken</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f9fafb;
             color: #2A3E4C;
             text-align: center;
-            padding: 50px 20px;
+            padding: 50px;
         }
         h2 {
+            color: #2A3E4C;
             margin-bottom: 20px;
         }
         p {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .button {
             background-color: #2A3E4C;
             color: #00AEEF;
-            padding: 14px 28px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
             font-size: 16px;
             display: inline-block;
             transition: background-color 0.3s ease;
-            margin-bottom: 15px;
         }
         .button:hover {
             background-color: #1f2c36;
         }
-        .link-text {
-            word-break: break-all;
-            color: #2A3E4C;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
-    <h2>¡Último paso para activar tu cuenta!</h2>
-    <p>Haz clic en el botón para confirmar:</p>
-    <a href="{{activationUrl}}" class="button" target="_blank" rel="noopener noreferrer">Confirmar Cuenta</a>
-    <p class="link-text">Si no funciona, visita este enlace:<br>{{activationUrl}}</p>
+    <h2>Esta cuenta ya fue confirmada</h2>
+    <p>Parece que ya confirmaste tu cuenta anteriormente. Puedes iniciar sesión cuando quieras.</p>
+    <a href="https://back-4vmo.onrender.com/api#/Auth/AuthController_login" class="button" target="_blank" rel="noopener noreferrer">Iniciar Sesión</a>
 </body>
 </html>

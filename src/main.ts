@@ -14,6 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.setBaseViewsDir(join(__dirname, 'views'));
   app.setViewEngine('hbs');
+  app.useStaticAssets(join(__dirname, '..', 'public')); 
   const config = new DocumentBuilder()
     .setTitle('Mi API')
     .setDescription('API con NestJS, JWT, Swagger y Sequelize')
