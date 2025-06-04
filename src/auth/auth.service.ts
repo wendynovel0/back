@@ -264,7 +264,7 @@ async confirmAccount(token: string): Promise<string> {
   }
 
 
-async confirmEmail(token: string): Promise<string> {
+async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
   try {
     const decoded = this.jwtService.verify(token, {
       secret: this.configService.get('JWT_ACTIVATION_SECRET')
@@ -272,18 +272,23 @@ async confirmEmail(token: string): Promise<string> {
 
     const user = await this.usersService.findByEmail(decoded.email);
     if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    if (user.is_active) {
+      return 'alreadyConfirmed';
+    }
     
     await this.usersService.update(
-  user.user_id,
-  {
-    is_active: true,
-    activation_token: null,
-    activated_at: new Date(),
-  },
-  user.user_id 
-);
+      user.user_id,
+      {
+        is_active: true,
+        activation_token: null,
+        activated_at: new Date(),
+      },
+      user.user_id
+    );
 
-    return decoded.email;
+    return 'confirmed';
+
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
       throw new BadRequestException('El enlace de confirmación ha expirado');
@@ -291,6 +296,7 @@ async confirmEmail(token: string): Promise<string> {
     throw new BadRequestException('Token de activación inválido');
   }
 }
+
   private isValidBcryptHash(hash: string): boolean {
     return hash.startsWith('$2a$') || hash.startsWith('$2b$') || hash.startsWith('$2y$');
   }
