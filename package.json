@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",  
   "scripts": {
-    "build": "nest build && cp -r src/mail/templates dist/src/mail/templates",
+    "build": "nest build && mkdir -p dist/mail/templates && cp -r src/mail/templates/* dist/mail/templates",
+    "build:prod": "nest build --prod && mkdir -p dist/mail/templates && cp -r src/mail/templates/* dist/mail/templates",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
