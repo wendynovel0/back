@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Exitoso - Hoken</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; }
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; }
+        .success { color: #4CAF50; text-align: center; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success">¡Registro exitoso en {{appName}}!</div>
+        <p>Hola {{email}},</p>
+        <p>Tu cuenta ha sido creada correctamente. Ya puedes iniciar sesión usando el endpoint POST /auth/login.</p>
+        <p>Visita {{backendUrl}}/api para acceder.</p>
+    </div>
+</body>
+</html>

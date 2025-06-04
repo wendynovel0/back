@@ -15,21 +15,19 @@ export class MailService {
   }
 
   async sendConfirmationEmail(email: string, token: string): Promise<void> {
-    const frontendUrl = this.configService.get('FRONTEND_URL');
-    const activationUrl = `${frontendUrl}/auth/confirm-email?token=${encodeURIComponent(token)}`;
-    const appName = this.configService.get('APP_NAME', 'Hoken');
+    const backendUrl = this.configService.get('BACKEND_URL');
+  const activationUrl = `${backendUrl}/auth/confirm-email?token=${encodeURIComponent(token)}`;
 
     try {
       await this.mailerService.sendMail({
         from: this.mailFrom,
         to: email,
-        subject: `Activa tu cuenta en ${appName}`,
+        subject: `Activa tu cuenta en Hoken`,
         template: 'confirmation',
         context: {
           email,
           confirmUrl: activationUrl,
-          appName,
-          frontendUrl,
+          backendUrl: this.configService.get('BACKEND_URL'),
           supportEmail: this.configService.get('MAIL_SUPPORT_ADDRESS', 'soporte@hoken.com')
         }
       });
@@ -86,7 +84,6 @@ export class MailService {
       this.logger.log(`Correo de bienvenida enviado a ${email}`);
     } catch (error) {
       this.logger.error(`Error enviando correo de bienvenida a ${email}: ${error.message}`, error.stack);
-      // No lanzamos error para no afectar el flujo principal
     }
   }
 }

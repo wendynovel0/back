@@ -62,6 +62,7 @@ export class AuthController {
     return { message: 'Sesión cerrada correctamente' };
   }
 
+  
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Registrar nuevo usuario (envía correo de confirmación)' }) 
@@ -92,6 +93,19 @@ export class AuthController {
   return this.authService.register(registerDto); 
 }
 
+@Get('confirm-email')
+@Redirect()
+async confirmAccount(
+  @Query('token') token: string
+) {
+  try {
+    const email = await this.authService.confirmEmail(token);
+    await this.mailService.sendActivationSuccessEmail(email);
+    return { url: `${this.configService.get('BACKEND_URL')}/api` };
+  } catch (error) {
+    throw new BadRequestException(error.message);
+  }
+}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -128,4 +142,6 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
+
+  
 }
