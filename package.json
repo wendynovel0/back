@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 1 src/public/**/* dist/public",
-    "build:prod": "nest build --prod && mkdir -p dist/mail/templates && cp -r src/mail/templates/* dist/mail/templates && mkdir -p dist/public && cp -r src/public/* dist/public",
+      "build": "tsc && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 1 src/public/**/* dist/public",
+  "build:prod": "nest build --prod && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 1 src/public/**/* dist/public",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
