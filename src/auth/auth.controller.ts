@@ -94,18 +94,19 @@ export class AuthController {
 }
 
 @Get('confirm-email')
-@Redirect()
-async confirmAccount(
-  @Query('token') token: string
-) {
-  try {
-    const email = await this.authService.confirmEmail(token);
-    await this.mailService.sendActivationSuccessEmail(email);
-    return { url: `${this.configService.get('BACKEND_URL')}/api` };
-  } catch (error) {
-    throw new BadRequestException(error.message);
+  async confirmEmail(@Query('token') token: string, @Res() res: Response) {
+    try {
+      await this.authService.confirmEmail(token);
+
+      const frontendUrl = this.configService.get('FRONTEND_URL');
+    
+      return res.redirect(`${frontendUrl}/confirm-success`);
+    } catch (err) {
+      const frontendUrl = this.configService.get('FRONTEND_URL');
+     
+      return res.redirect(`${frontendUrl}/confirm-error`);
+    }
   }
-}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)

@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",  
+  "license": "UNLICENSED",
   "scripts": {
     "build": "nest build && mkdir -p dist/mail/templates && cp -r src/mail/templates/* dist/mail/templates",
     "build:prod": "nest build --prod && mkdir -p dist/mail/templates && cp -r src/mail/templates/* dist/mail/templates",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/cli": "^11.0.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -42,13 +43,13 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.0",
     "pg-hstore": "^2.3.4",
+    "react-router-dom": "^7.6.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.24",
-    "@nestjs/cli": "^11.0.0"
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -63,6 +64,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.24",
     "@types/passport-jwt": "^4.0.1",
+    "@types/react-router-dom": "^5.3.3",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
@@ -96,5 +98,4 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
-  
 }
