@@ -26,7 +26,7 @@ export class MailService {
         template: 'confirmation',
         context: {
           email,
-          confirmUrl: activationUrl,
+          activationUrl: activationUrl, 
           backendUrl: this.configService.get('BACKEND_URL'),
           supportEmail: this.configService.get('MAIL_SUPPORT_ADDRESS', 'soporte@hoken.com')
         }
