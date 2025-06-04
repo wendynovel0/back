@@ -6,15 +6,20 @@ import { BooleanToStringInterceptor } from './interceptors/boolean-to-string.int
 import { FormatResponseInterceptor } from './interceptors/format-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useGlobalInterceptors(new FormatResponseInterceptor());
   app.useGlobalInterceptors(new BooleanToStringInterceptor());
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  app.setBaseViewsDir(join(__dirname, 'views'));
+
+  app.setBaseViewsDir(join(__dirname, 'mail', 'templates'));
   app.setViewEngine('hbs');
-  app.useStaticAssets(join(__dirname, '..', 'public')); 
+
+  app.useStaticAssets(join(__dirname, 'public'));
+
   const config = new DocumentBuilder()
     .setTitle('Mi API')
     .setDescription('API con NestJS, JWT, Swagger y Sequelize')
@@ -25,14 +30,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.PORT || 3000;
   app.enableCors({
-    origin: process.env.FRONTEND_URL, 
+    origin: process.env.FRONTEND_URL,
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
+
+  const port = process.env.PORT || 3000;
   await app.listen(port);
   console.log(`App running on port ${port}`);
 }
 bootstrap();
-  
