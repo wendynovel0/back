@@ -41,18 +41,16 @@ export class MailService {
   async sendPasswordResetEmail(email: string, token: string): Promise<void> {
     const frontendUrl = this.configService.get('FRONTEND_URL');
     const resetUrl = `${frontendUrl}/reset-password?token=${encodeURIComponent(token)}`;
-    const appName = this.configService.get('APP_NAME', 'Hoken');
 
     try {
       await this.mailerService.sendMail({
         from: this.mailFrom,
         to: email,
-        subject: `Restablece tu contraseña en ${appName}`,
+        subject: `Restablece tu contraseña en Hoken`,
         template: 'password-reset',
         context: {
           email,
           resetUrl,
-          appName,
           expirationHours: 24
         }
       });
@@ -65,18 +63,16 @@ export class MailService {
 
   async sendActivationSuccessEmail(email: string): Promise<void> {
     const frontendUrl = this.configService.get('FRONTEND_URL');
-    const appName = this.configService.get('APP_NAME', 'Hoken');
 
     try {
       await this.mailerService.sendMail({
         from: this.mailFrom,
         to: email,
-        subject: `¡Bienvenido a ${appName} - Cuenta activada!`,
+        subject: `¡Bienvenido a Hoken- Cuenta activada!`,
         template: 'activation-success',
         context: {
           email,
           frontendUrl,
-          appName,
           loginUrl: `${frontendUrl}/login`,
           supportEmail: this.configService.get('MAIL_SUPPORT_ADDRESS', 'soporte@hoken.com')
         }
