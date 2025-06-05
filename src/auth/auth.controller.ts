@@ -102,30 +102,23 @@ async confirmEmail(@Query('token') token: string, @Res() res: Response) {
 
   try {
     const result = await this.authService.confirmEmail(token);
+    console.log('confirmEmail result:', result); 
 
     if (result === 'alreadyConfirmed') {
-      return res.render('account-already-confirmed', {
-        backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
-      });
+      return res.sendFile(join(__dirname, '..', 'public', 'account-already-confirmed.html'));
     }
 
     if (result === 'confirmed') {
-      return res.render('activation-success', {
-        backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
-      });
+      return res.sendFile(join(__dirname, '..', 'public', 'account-confirmed.html'));
     }
 
-    return res.render('activation-error', {
-      backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
-      message: 'No se pudo confirmar el correo.',
-    });
+    return res.sendFile(join(__dirname, '..', 'public', 'activation-error.html'));
   } catch (error) {
-    return res.render('activation-error', {
-      backendUrl: 'https://back-4vmo.onrender.com/api#/Auth/AuthController_login',
-      message: error.message || 'No se pudo confirmar el correo.',
-    });
+    console.error('confirmEmail error:', error);
+    return res.sendFile(join(__dirname, '..', 'public', 'activation-error.html'));
   }
 }
+
 
 
   @Post('login')
