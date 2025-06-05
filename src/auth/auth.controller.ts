@@ -32,6 +32,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { formatResponse } from '../common/utils/response-format';
 import { ConfigService } from '@nestjs/config';
 import { MailService } from '../mail/mail.service';
+import { join } from 'path';
 
 @ApiTags('Auth')
 @Controller('auth')
