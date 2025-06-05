@@ -25,11 +25,14 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nes
 import { formatResponse } from 'src/common/utils/response-format';
 import { ActionLogsService } from 'src/action-logs/action-logs.service';
 import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
+
 
 
 @Injectable()
 export class AuthService {
   private readonly SALT_ROUNDS = 12;
+   private readonly logger = new Logger(AuthService.name);
 
   constructor(
   @Inject(forwardRef(() => UserService))
@@ -264,7 +267,7 @@ async confirmAccount(token: string): Promise<string> {
   }
 
 
-async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
+async confirmEmail(token: string): Promise<string> {
   try {
     const decoded = this.jwtService.verify(token, {
       secret: this.configService.get('JWT_ACTIVATION_SECRET')
@@ -274,9 +277,10 @@ async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
     if (!user) throw new NotFoundException('Usuario no encontrado');
 
     if (user.is_active) {
-      return 'alreadyConfirmed';
+      this.logger.warn(`El usuario ${user.email} ya estaba activado`);
+      return user.email;
     }
-    
+
     await this.usersService.update(
       user.user_id,
       {
@@ -284,10 +288,12 @@ async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
         activation_token: null,
         activated_at: new Date(),
       },
-      user.user_id
+      user.user_id 
     );
 
-    return 'confirmed';
+    await this.mailService.sendActivationSuccessEmail(user.email);
+
+    return decoded.email;
 
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
@@ -296,6 +302,7 @@ async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
     throw new BadRequestException('Token de activación inválido');
   }
 }
+
 
   private isValidBcryptHash(hash: string): boolean {
     return hash.startsWith('$2a$') || hash.startsWith('$2b$') || hash.startsWith('$2y$');
