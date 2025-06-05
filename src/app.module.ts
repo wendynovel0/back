@@ -20,7 +20,7 @@ import { MailModule } from './mail/mail.module';
     }),
 
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, 'public'), 
+      rootPath: join(__dirname, '..', 'public')
     }),
 
     TypeOrmModule.forRootAsync({
