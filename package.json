@@ -50,7 +50,8 @@
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.24"
+    "typeorm": "^0.3.24",
+    "copyfiles": "^2.4.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -67,7 +68,6 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/supertest": "^6.0.2",
-    "copyfiles": "^2.4.1",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
