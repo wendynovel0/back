@@ -267,7 +267,7 @@ async confirmAccount(token: string): Promise<string> {
   }
 
 
-async confirmEmail(token: string): Promise<string> {
+async confirmEmail(token: string): Promise<'confirmed' | 'alreadyConfirmed'> {
   try {
     const decoded = this.jwtService.verify(token, {
       secret: this.configService.get('JWT_ACTIVATION_SECRET')
@@ -278,7 +278,7 @@ async confirmEmail(token: string): Promise<string> {
 
     if (user.is_active) {
       this.logger.warn(`El usuario ${user.email} ya estaba activado`);
-      return user.email;
+      return 'alreadyConfirmed'; 
     }
 
     await this.usersService.update(
@@ -293,7 +293,7 @@ async confirmEmail(token: string): Promise<string> {
 
     await this.mailService.sendActivationSuccessEmail(user.email);
 
-    return decoded.email;
+    return 'confirmed'; 
 
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
@@ -302,6 +302,7 @@ async confirmEmail(token: string): Promise<string> {
     throw new BadRequestException('Token de activación inválido');
   }
 }
+
 
 
   private isValidBcryptHash(hash: string): boolean {
