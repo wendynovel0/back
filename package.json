@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "tsc && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 2 src/public/**/* dist/public",
-    "build:prod": "nest build && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 2 src/public/**/* dist/public",
+"build:prod": "nest build && copyfiles -u 2 src/mail/templates/**/* dist/mail/templates && copyfiles -u 2 src/public/**/* dist/public",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
