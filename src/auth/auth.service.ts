@@ -22,7 +22,7 @@ import { MailService } from '../mail/mail.service';
 import { normalizeToken } from '../common/utils/token.utils';
 import * as crypto from 'crypto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
-import { formatResponse } from 'src/common/utils/response-format';
+import { formatResponse } from '../common/utils/response-format'; 
 import { ActionLogsService } from '../action-logs/action-logs.service';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';

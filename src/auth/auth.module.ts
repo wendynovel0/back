@@ -11,9 +11,9 @@ import { AuthController } from './auth.controller';
 import { User } from '../users/entities/user.entity';
 import { BlacklistedToken } from './entities/blacklisted-token.entity';
 import { UsersModule } from '../users/users.module';
-import { UserVerificationService } from 'src/auth/services/user-verification.service';
+import { UserVerificationService } from './services/user-verification.service';
 import { MailModule } from '../mail/mail.module';
-import { LogsModule } from 'src/action-logs/action-logs.module';
+import { LogsModule } from '../action-logs/action-logs.module';
 
 @Module({
   imports: [
