@@ -102,7 +102,6 @@ async confirmEmail(@Query('token') token: string, @Res() res: Response) {
 
   try {
     const result = await this.authService.confirmEmail(token);
-    console.log('confirmEmail result:', result); 
 
     if (result === 'alreadyConfirmed') {
       return res.sendFile(join(__dirname, '..', 'public', 'account-already-confirmed.html'));
@@ -118,8 +117,6 @@ async confirmEmail(@Query('token') token: string, @Res() res: Response) {
     return res.sendFile(join(__dirname, '..', 'public', 'activation-error.html'));
   }
 }
-
-
 
   @Post('login')
   @HttpCode(HttpStatus.OK)

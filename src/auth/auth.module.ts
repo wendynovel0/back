@@ -17,6 +17,7 @@ import { LogsModule } from '../action-logs/action-logs.module';
 
 @Module({
   imports: [
+    ConfigModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
     TypeOrmModule.forFeature([User, BlacklistedToken]),
@@ -35,9 +36,8 @@ import { LogsModule } from '../action-logs/action-logs.module';
 
     forwardRef(() => UsersModule), 
 
-    MailModule, 
-
-    ConfigModule, 
+    MailModule
+, 
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UserVerificationService],
